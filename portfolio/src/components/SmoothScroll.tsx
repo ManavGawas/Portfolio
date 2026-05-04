@@ -5,10 +5,10 @@ import Lenis from '@studio-freight/lenis';
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      wheelMultiplier: 1,
-      touchMultiplier: 2,
+      lerp: 0.06, // Physics-based smoothing for that buttery momentum
+      wheelMultiplier: 1.1,
+      smoothWheel: true,
+      syncTouch: true,
     });
 
     function raf(time: number) {
@@ -16,9 +16,10 @@ export default function SmoothScroll({ children }: { children: React.ReactNode }
       requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    const rafId = requestAnimationFrame(raf);
 
     return () => {
+      cancelAnimationFrame(rafId);
       lenis.destroy();
     };
   }, []);

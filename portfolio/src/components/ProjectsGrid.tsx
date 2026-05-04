@@ -35,16 +35,29 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
 
+  const rectRef = useRef<DOMRect | null>(null);
+
+  const handleMouseEnter = () => {
+    if (ref.current) {
+      rectRef.current = ref.current.getBoundingClientRect();
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
+    if (!rectRef.current) return;
+    const rect = rectRef.current;
+    
+    // Add requestAnimationFrame to throttle state updates
+    requestAnimationFrame(() => {
+      x.set((e.clientX - rect.left) / rect.width - 0.5);
+      y.set((e.clientY - rect.top) / rect.height - 0.5);
+    });
   };
 
   const handleMouseLeave = () => {
     x.set(0);
     y.set(0);
+    rectRef.current = null;
   };
 
   const Icon = project.icon;
@@ -52,6 +65,7 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
   return (
     <motion.div
       ref={ref}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       initial={{ opacity: 0, y: 40 }}

@@ -131,7 +131,7 @@ function ParticleSphere() {
 export default function ShadersSphere() {
   return (
     <div className="absolute inset-0 w-full h-full z-0 pointer-events-none perspective-1000">
-      <Canvas camera={{ position: [0, 0, 15], fov: 60 }} dpr={[1, 2]}>
+      <Canvas camera={{ position: [0, 0, 15], fov: 60 }} dpr={[1, 1.5]}>
         <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
           <ParticleSphere />
         </Float>

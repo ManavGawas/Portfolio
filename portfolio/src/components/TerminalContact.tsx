@@ -126,7 +126,7 @@ export default function TerminalContact() {
               <div className="h-48 flex flex-col items-center justify-center text-center border border-green-500/20 bg-green-500/5 rounded-lg p-6">
                 <CheckCircle2 className="w-8 h-8 text-green-400 mb-3" />
                 <p className="text-green-400 text-sm">STATUS: 200 OK</p>
-                <p className="text-white/60 text-xs mt-2">Payload encrypted and transmitted to Syncora mainframes.</p>
+                <p className="text-white/60 text-xs mt-2">Payload encrypted and transmitted to Manav Gawas</p>
                 <button onClick={() => setIsSuccess(false)} className="mt-6 text-xs text-cyan-400 hover:underline">Start New Session</button>
               </div>
             ) : (
@@ -136,6 +136,7 @@ export default function TerminalContact() {
                   <input 
                     type="text" 
                     required
+                    suppressHydrationWarning
                     value={formData.id}
                     onChange={(e) => setFormData({...formData, id: e.target.value})}
                     placeholder="name_or_alias" 
@@ -148,6 +149,37 @@ export default function TerminalContact() {
                   <label className="text-cyan-400 text-sm whitespace-nowrap">{"> Input Return Path:"}</label>
                   <input 
                     type="email" 
+                    required
+                    suppressHydrationWarning
+                    value={formData.path}
+                    onChange={(e) => setFormData({...formData, path: e.target.value})}
+                    placeholder="email_address" 
+                    className="flex-1 bg-transparent border-b border-white/20 pb-1 text-white focus:outline-none focus:border-cyan-400 transition-colors text-sm placeholder:text-white/20"
+                    disabled={isEncrypting}
+                  />
+                </div>
+                
+                <div className="flex flex-col gap-2">
+                  <label className="text-cyan-400 text-sm whitespace-nowrap">{"> Compile Payload Array:"}</label>
+                  <textarea 
+                    required
+                    suppressHydrationWarning
+                    value={formData.payload}
+                    onChange={(e) => setFormData({...formData, payload: e.target.value})}
+                    placeholder="const message = '...';" 
+                    className="w-full bg-black/50 border border-white/10 rounded-md p-3 text-white focus:outline-none focus:border-cyan-400 transition-colors text-sm placeholder:text-white/20 min-h-24 resize-y font-mono"
+                    disabled={isEncrypting}
+                  />
+                </div>
+
+                <div className="flex items-center gap-3">
+                  <span className="text-cyan-400">{">"}</span>
+                  <button 
+                    type="submit" 
+                    suppressHydrationWarning
+                    disabled={isEncrypting}
+                    className="flex items-center gap-2 px-4 py-2 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 transition-colors rounded text-sm group disabled:opacity-50 disabled:cursor-not-allowed"
+                  > 
                     required
                     value={formData.path}
                     onChange={(e) => setFormData({...formData, path: e.target.value})}

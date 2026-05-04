@@ -53,7 +53,7 @@ function ParticleSwarm() {
 export default function EventStream() {
   return (
     <div className="absolute inset-0 w-full h-full z-0 pointer-events-none">
-      <Canvas camera={{ position: [0, 0, 15], fov: 60 }} dpr={[1, 2]}>
+      <Canvas camera={{ position: [0, 0, 15], fov: 60 }} dpr={[1, 1.5]}>
         <fog attach="fog" args={['#030303', 10, 25]} />
         <ParticleSwarm />
       </Canvas>

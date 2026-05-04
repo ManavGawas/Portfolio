@@ -42,7 +42,9 @@ export default function Home() {
         <CareerTimeline />
       </FocusFade>
       
-      <ProjectsGrid />
+      <FocusFade>
+        <ProjectsGrid />
+      </FocusFade>
 
       <FocusFade>
         <ArchitectureMap />

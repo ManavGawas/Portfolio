@@ -101,18 +101,36 @@ export default function Hero() {
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
 
+  const rectRef = useRef<DOMRect | null>(null);
+
+  const handleMouseEnter = () => {
+    if (sectionRef.current) {
+      rectRef.current = sectionRef.current.getBoundingClientRect();
+    }
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
-    if (!sectionRef.current) return;
-    const rect = sectionRef.current.getBoundingClientRect();
-    x.set((e.clientX - rect.left) / rect.width - 0.5);
-    y.set((e.clientY - rect.top) / rect.height - 0.5);
+    if (!rectRef.current) return;
+    const rect = rectRef.current;
+    
+    // Add requestAnimationFrame to throttle state updates
+    requestAnimationFrame(() => {
+      x.set((e.clientX - rect.left) / rect.width - 0.5);
+      y.set((e.clientY - rect.top) / rect.height - 0.5);
+    });
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0); y.set(0); 
+    rectRef.current = null;
   };
 
   return (
     <section 
       ref={sectionRef} 
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove} 
-      onMouseLeave={() => { x.set(0); y.set(0); }}
+      onMouseLeave={handleMouseLeave}
       className="relative w-full h-screen flex flex-col items-center justify-center z-10 px-6 overflow-hidden perspective-[2000px] bg-[#030303]"
     >
       

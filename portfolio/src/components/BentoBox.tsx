@@ -156,7 +156,7 @@ export default function BentoBox() {
             </div>
             <h4 className="text-xl font-bold text-white mb-3">The Discipline</h4>
             <p className="text-white/50 text-sm leading-relaxed">
-              State-Level Athlete. The exact same relentless mechanics, hypertrophy tracking, and pain-tolerance forged on the track now construct unbreakable cloud infrastructure.
+              State-Level Athlete. The exact same relentless mechanics, hypertrophy tracking, and pain-tolerance forged on the track now construct unbreakable enterprise solutions.
             </p>
           </SpatialBentoCard>
         </div>
