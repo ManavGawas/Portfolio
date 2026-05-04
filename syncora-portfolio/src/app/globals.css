@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    overscroll-behavior: none;
+  }
+}
+
+
+@layer utilities {
+  .glass-panel {
+    background: rgba(255, 255, 255, 0.015);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .text-gradient {
+    background: linear-gradient(180deg, #ffffff 0%, rgba(255, 255, 255, 0.3) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Global perspective utility - creates the 3D space */
+  .spatial-perspective {
+    perspective: 2000px; /* Lower numbers = more extreme 3D effect */
+  }
+
+  /* Tells browser to preserve 3D stacking context for children */
+  .spatial-stack {
+    transform-style: preserve-3d;
+  }
+}
