@@ -88,3 +88,5 @@ LinkedIn: linkedin.com/in/manavgawas
 GitHub: github.com/ManavGawas
 
 Email: gawasmanav469@gmail.com
+
+Business Mail : manav@syncora.systems
