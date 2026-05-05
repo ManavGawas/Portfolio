@@ -83,7 +83,7 @@ export default function TerminalContact() {
   };
 
   return (
-    <section className="relative w-full py-32 px-6 flex flex-col items-center z-10 bg-[#030303] border-t border-white/5">
+    <section className="relative w-full py-32 px-6 flex flex-col items-center z-10 bg-transparent border-t border-white/5">
       
       <div className="text-center mb-16 max-w-2xl mx-auto">
         <h2 className="text-sm font-mono text-cyan-400 tracking-[0.2em] uppercase mb-4">
@@ -160,36 +160,6 @@ export default function TerminalContact() {
                 </div>
                 
                 <div className="flex flex-col gap-2">
-                  <label className="text-cyan-400 text-sm whitespace-nowrap">{"> Compile Payload Array:"}</label>
-                  <textarea 
-                    required
-                    suppressHydrationWarning
-                    value={formData.payload}
-                    onChange={(e) => setFormData({...formData, payload: e.target.value})}
-                    placeholder="const message = '...';" 
-                    className="w-full bg-black/50 border border-white/10 rounded-md p-3 text-white focus:outline-none focus:border-cyan-400 transition-colors text-sm placeholder:text-white/20 min-h-24 resize-y font-mono"
-                    disabled={isEncrypting}
-                  />
-                </div>
-
-                <div className="flex items-center gap-3">
-                  <span className="text-cyan-400">{">"}</span>
-                  <button 
-                    type="submit" 
-                    suppressHydrationWarning
-                    disabled={isEncrypting}
-                    className="flex items-center gap-2 px-4 py-2 border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 transition-colors rounded text-sm group disabled:opacity-50 disabled:cursor-not-allowed"
-                  > 
-                    required
-                    value={formData.path}
-                    onChange={(e) => setFormData({...formData, path: e.target.value})}
-                    placeholder="email_address" 
-                    className="flex-1 bg-transparent border-b border-white/20 pb-1 text-white focus:outline-none focus:border-cyan-400 transition-colors text-sm placeholder:text-white/20"
-                    disabled={isEncrypting}
-                  />
-                </div>
-
-                <div className="flex flex-col gap-2">
                   <label className="text-cyan-400 text-sm">{"> Input Payload:"}</label>
                   {isEncrypting ? (
                     <div className="w-full h-32 bg-[#050505] border border-white/10 rounded-lg p-3 text-green-400 text-xs break-all overflow-hidden opacity-70">
@@ -198,6 +168,7 @@ export default function TerminalContact() {
                   ) : (
                     <textarea 
                       required
+                      suppressHydrationWarning
                       value={formData.payload}
                       onChange={(e) => setFormData({...formData, payload: e.target.value})}
                       placeholder="Transmit your message here..." 
@@ -212,6 +183,7 @@ export default function TerminalContact() {
                   </span>
                   <button 
                     type="submit" 
+                    suppressHydrationWarning
                     disabled={isEncrypting}
                     className="flex items-center gap-2 px-4 py-2 border border-cyan-500/50 text-cyan-400 text-xs hover:bg-cyan-500/10 transition-colors rounded disabled:opacity-50"
                   >

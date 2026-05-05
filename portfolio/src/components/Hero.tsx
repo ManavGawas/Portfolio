@@ -131,7 +131,7 @@ export default function Hero() {
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove} 
       onMouseLeave={handleMouseLeave}
-      className="relative w-full h-screen flex flex-col items-center justify-center z-10 px-6 overflow-hidden perspective-[2000px] bg-[#030303]"
+      className="relative w-full h-screen flex flex-col items-center justify-center z-10 px-6 overflow-hidden perspective-[2000px] bg-transparent"
     >
       
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] md:w-[50vw] md:h-[50vw] bg-cyan-900/10 blur-[150px] rounded-full pointer-events-none z-0"></div>

@@ -74,7 +74,7 @@ export default function BentoBox() {
   ];
 
   return (
-    <section className="relative w-full min-h-screen py-32 px-6 flex flex-col items-center z-10 bg-[#030303] overflow-hidden spatial-perspective spatial-stack perspective-1000">
+    <section className="relative w-full min-h-screen py-32 px-6 flex flex-col items-center z-10 bg-transparent overflow-hidden spatial-perspective spatial-stack perspective-1000">
       
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-cyan-950/20 blur-[150px] rounded-full pointer-events-none z-0"></div>
       <div className="absolute bottom-0 right-0 w-[50vw] h-[50vw] bg-purple-950/20 blur-[120px] rounded-full pointer-events-none z-0"></div>

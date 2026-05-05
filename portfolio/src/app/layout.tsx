@@ -58,7 +58,6 @@ export default function RootLayout({
         ${inter.className} 
         bg-transparent text-white antialiased 
         selection:bg-cyan-500/30 
-        spatial-perspective spatial-stack
         overscroll-none 
       `}>
         

@@ -4,7 +4,7 @@ import { Target, Zap, Users } from "lucide-react";
 
 export default function SyncoraManifesto() {
   return (
-    <section className="relative w-full py-32 px-6 flex flex-col items-center z-10 bg-[#050505] border-y border-white/5">
+    <section className="relative w-full py-32 px-6 flex flex-col items-center z-10 bg-transparent border-y border-white/5">
       <div className="max-w-5xl mx-auto w-full">
         
         <div className="flex items-center gap-4 mb-12">

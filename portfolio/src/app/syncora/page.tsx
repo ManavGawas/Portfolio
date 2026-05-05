@@ -166,7 +166,7 @@ export default function SyncoraPage() {
   };
 
   return (
-    <main ref={containerRef} className="relative min-h-screen bg-[#030303] w-full selection:bg-cyan-500/30 overflow-x-hidden">
+    <main ref={containerRef} className="relative min-h-screen bg-transparent w-full selection:bg-cyan-500/30 overflow-x-hidden">
       
       {/* Navigation & Branding */}
       <div className="absolute top-8 left-6 md:left-12 z-50 flex justify-between w-[calc(100%-3rem)] md:w-[calc(100%-6rem)] items-center">
@@ -212,7 +212,7 @@ export default function SyncoraPage() {
       </section>
 
       {/* CLIENT CAPABILITIES (God-Level Dashboard) */}
-      <section className="relative w-full py-32 px-6 z-10 bg-[#020202] border-t border-white/5 perspective-1000">
+      <section className="relative w-full py-32 px-6 z-10 bg-transparent border-t border-white/5 perspective-1000">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-20">
             <h2 className="text-sm font-mono text-cyan-400 tracking-[0.2em] uppercase mb-4">Client Capabilities</h2>
@@ -255,7 +255,7 @@ export default function SyncoraPage() {
       </section>
 
       {/* SAAS FEATURES (Under the Hood SLA) */}
-      <section className="relative w-full py-32 px-6 z-10 bg-[#050505] border-t border-white/5">
+      <section className="relative w-full py-32 px-6 z-10 bg-transparent border-t border-white/5">
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-center">
           <div className="w-full lg:w-1/3">
             <h2 className="text-sm font-mono text-purple-400 tracking-[0.2em] uppercase mb-4">Under The Hood</h2>
@@ -313,7 +313,7 @@ export default function SyncoraPage() {
       </section>
 
       {/* TECH STACK & RECRUITMENT */}
-      <section className="relative w-full py-32 px-6 z-10 bg-[#020202] border-t border-white/5">
+      <section className="relative w-full py-32 px-6 z-10 bg-transparent border-t border-white/5">
         <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,rgba(168,85,247,0.03)_0%,transparent_70%)] pointer-events-none"></div>
         
         <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 items-start">

@@ -19,7 +19,7 @@ export default function BootSequence() {
       initial={{ y: 0 }}
       animate={{ y: "-100vh" }}
       transition={{ duration: 0.8, delay: 1.2, ease: [0.76, 0, 0.24, 1] }} // Snaps up after 1.2s
-      className="fixed top-0 left-0 w-screen h-screen z-[99999] bg-[#030303] flex flex-col items-center justify-center pointer-events-none"
+      className="fixed top-0 left-0 w-screen h-screen z-[99999] bg-[#050505] flex flex-col items-center justify-center pointer-events-none"
     >
       <div className="w-full max-w-md px-6 font-mono">
         <div className="flex items-center gap-3 mb-4">

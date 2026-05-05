@@ -72,7 +72,7 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative w-full flex flex-col rounded-2xl border border-white/10 bg-[#080808] cursor-crosshair group shadow-2xl hover:shadow-[0_0_40px_rgba(var(--glow-color),0.15)] transition-all duration-500 overflow-hidden`}
+      className={`relative w-full flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md cursor-crosshair group shadow-2xl hover:shadow-[0_0_40px_rgba(var(--glow-color),0.15)] transition-all duration-500 overflow-hidden`}
       style={{ 
         ...({ '--glow-color': project.glowColor } as React.CSSProperties),
         rotateX, 
@@ -81,7 +81,7 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
       }}
     >
       {/* Top Terminal Bar */}
-      <div className="w-full bg-[#030303] border-b border-white/5 px-4 py-3 flex items-center justify-between z-20">
+      <div className="w-full bg-transparent border-b border-white/5 px-4 py-3 flex items-center justify-between z-20">
         <div className="flex items-center gap-2">
           <TerminalSquare className="w-4 h-4 text-white/30" />
           <span className="text-[10px] font-mono text-white/40 tracking-widest uppercase">NODE_{index + 1}</span>
@@ -228,7 +228,7 @@ export default function ProjectsGrid() {
   ];
 
   return (
-    <section id="projects" className="relative w-full py-32 px-6 z-10 bg-[#010101] overflow-hidden perspective-1000 border-t border-white/5">
+    <section id="projects" className="relative w-full py-32 px-6 z-10 bg-transparent overflow-hidden perspective-1000 border-t border-white/5">
       
       {/* Background Ambient Light */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-white/[0.02] blur-[150px] rounded-full pointer-events-none z-0"></div>

@@ -30,7 +30,7 @@ function FocusFade({ children }: { children: React.ReactNode }) {
 
 export default function Home() {
   return (
-    <main className="relative min-h-screen bg-[#030303] w-full selection:bg-cyan-500/30 overflow-clip">
+    <main className="relative min-h-screen bg-transparent w-full selection:bg-cyan-500/30 overflow-clip">
       
       {/* BootSequence is a fixed overlay */}
       <BootSequence />

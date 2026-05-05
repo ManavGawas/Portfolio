@@ -51,7 +51,7 @@ function LayoutTemplate(props: any) { return <Server {...props} />; }
 
 export default function ArchitectureMap() {
   return (
-    <section className="relative w-full py-32 px-6 z-10 bg-[#030303] overflow-hidden spatial-stack perspective-1000">
+    <section className="relative w-full py-32 px-6 z-10 bg-transparent overflow-hidden spatial-stack perspective-1000">
       
       {/* Background Radiance */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-cyan-950/20 blur-[150px] rounded-full pointer-events-none z-0"></div>

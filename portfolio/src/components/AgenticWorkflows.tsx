@@ -119,7 +119,7 @@ export default function AgenticWorkflows() {
       ref={sectionRef} 
       onMouseMove={handleMouseMove} 
       onMouseLeave={() => { x.set(0); y.set(0); }}
-      className="relative w-full py-32 px-6 z-10 bg-[#030303] overflow-hidden perspective-[2000px] spatial-stack border-t border-white/5"
+      className="relative w-full py-32 px-6 z-10 bg-transparent overflow-hidden perspective-[2000px] spatial-stack border-t border-white/5"
     >
       
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-purple-900/10 blur-[150px] rounded-full pointer-events-none z-0"></div>

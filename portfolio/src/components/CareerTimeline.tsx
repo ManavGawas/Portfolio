@@ -154,7 +154,7 @@ export default function CareerTimeline() {
   ];
 
   return (
-    <section ref={containerRef} className="relative w-full py-32 px-6 z-10 bg-[#030303] spatial-stack perspective-1000">
+    <section ref={containerRef} className="relative w-full py-32 px-6 z-10 bg-transparent spatial-stack perspective-1000">
       
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24 relative">
         

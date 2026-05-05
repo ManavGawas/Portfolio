@@ -222,7 +222,7 @@ export default function QuantTerminal() {
       case "whoami": return "guest_user (unverified).\n> Suggestion: Upgrade to ROOT by submitting an Encrypted Message Drop in the Contact section.";
       case "status":
         return (
-          <div className="border border-white/5 bg-[#050505] rounded-lg p-4 my-3 max-w-sm">
+          <div className="border border-white/5 bg-black/40 rounded-lg p-4 my-3 max-w-sm">
             <div className="flex justify-between text-xs mb-2">
               <span className="text-white/50">SYSTEM_STATUS</span>
               <span className="text-green-400">ONLINE</span>
@@ -238,7 +238,7 @@ export default function QuantTerminal() {
         );
       case "network":
         return (
-          <div className="bg-[#050505] border border-white/5 rounded-lg p-4 space-y-3 my-3 max-w-sm">
+          <div className="bg-black/40 border border-white/5 rounded-lg p-4 space-y-3 my-3 max-w-sm">
             {[
               { label: "MAIL_PROTOCOL", value: "gawasmanav469@gmail.com", key: "mail" },
               { label: "VOICE_GATEWAY", value: "+91 9702582512", key: "phone" },
@@ -282,7 +282,7 @@ export default function QuantTerminal() {
         <motion.div 
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={() => setIsOpen(false)}
-          className="absolute inset-0 bg-[#000000] z-[-1]"
+          className="absolute inset-0 bg-black/90 backdrop-blur-2xl z-[-1]"
         />
 
         {/* Command Palette Modal - strictly bounded by max-h-full */}
@@ -291,10 +291,10 @@ export default function QuantTerminal() {
           animate={{ opacity: 1, scale: 1, y: 0 }} 
           exit={{ opacity: 0, scale: 0.95, y: -20 }}
           transition={{ duration: 0.2, ease: "easeOut" }}
-          className="relative w-full max-w-3xl bg-[#080808] border border-white/10 rounded-2xl shadow-2xl overflow-hidden font-mono flex flex-col max-h-full"
+          className="relative w-full max-w-3xl bg-black/90 border border-white/10 rounded-2xl shadow-2xl overflow-hidden font-mono flex flex-col max-h-full backdrop-blur-2xl"
         >
           {/* Header & Button Search (Fixed at top) */}
-          <div className="flex items-center px-4 border-b border-white/10 bg-[#050505] shrink-0">
+          <div className="flex items-center px-4 border-b border-white/10 bg-black/50 shrink-0">
             <Search className="w-5 h-5 text-cyan-400 shrink-0" />
             <input 
               autoFocus

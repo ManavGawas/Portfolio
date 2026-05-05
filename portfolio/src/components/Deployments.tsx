@@ -105,7 +105,7 @@ const deploymentsData = [
 
 export default function Deployments() {
   return (
-    <section className="relative w-full min-h-screen py-32 px-6 z-10 bg-[#030303]">
+    <section className="relative w-full min-h-screen py-32 px-6 z-10 bg-transparent">
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 relative">
         
         {/* LEFT COLUMN: Sticky Narrative */}
