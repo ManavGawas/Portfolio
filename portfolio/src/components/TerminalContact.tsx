@@ -27,8 +27,8 @@ export default function TerminalContact() {
       const submitData = async () => {
         const payloadData = new FormData();
         
-        // PASTE YOUR PERSONAL GMAIL ACCESS KEY HERE
-        payloadData.append("access_key", "668aa5a9-23f5-49c7-b67d-247f1abb47bc"); 
+        // Using environment variable mapping
+        payloadData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_PERSONAL_KEY || ""); 
         
         // Map your form fields to Web3Forms required names
         payloadData.append("name", formData.id);

@@ -1,0 +1,35 @@
+name: CI Pipeline - Syncora Architecture
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-and-test:
+    name: Typecheck & Build Validation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛑 Checkout Source Code
+        uses: actions/checkout@v4
+
+      - name: ⚙️ Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm' 
+
+      - name: 📦 Install Dependencies
+        run: npm ci
+
+      - name: 🔍 Run ESLint
+        run: npm run lint
+
+      - name: 🏗️ Execute Production Build Check
+        run: npm run build
+        env:
+          # Injecting multi-routing keys for static generation
+          NEXT_PUBLIC_WEB3FORMS_PERSONAL: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_PERSONAL_KEY }}
+          NEXT_PUBLIC_WEB3FORMS_SYNCORA: ${{ secrets.NEXT_PUBLIC_WEB3FORMS_SYNCORA_KEY }}

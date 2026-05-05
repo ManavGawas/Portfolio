@@ -115,8 +115,8 @@ export default function SyncoraPage() {
       const submitData = async () => {
         const payloadData = new FormData();
         
-        // PASTE YOUR BUSINESS SYNCORA ACCESS KEY HERE
-        payloadData.append("access_key", "1b8f8836-3394-460e-98a0-7633aee72c47"); 
+        // Using environment variable mapping
+        payloadData.append("access_key", process.env.NEXT_PUBLIC_WEB3FORMS_SYNCORA_KEY || ""); 
         
         // Map form fields to Web3Forms required names
         payloadData.append("name", formData.id);
