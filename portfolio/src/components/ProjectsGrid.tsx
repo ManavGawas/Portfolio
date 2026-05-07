@@ -72,7 +72,7 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative w-full flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md cursor-crosshair group shadow-2xl hover:shadow-[0_0_40px_rgba(var(--glow-color),0.15)] transition-all duration-500 overflow-hidden`}
+      className={`relative w-full flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md cursor-crosshair group shadow-2xl hover:shadow-[0_0_40px_rgba(var(--glow-color),0.15)] transition-all duration-500 overflow-hidden will-change-transform`}
       style={{ 
         ...({ '--glow-color': project.glowColor } as React.CSSProperties),
         rotateX, 

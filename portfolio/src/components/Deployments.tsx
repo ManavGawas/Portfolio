@@ -143,7 +143,7 @@ export default function Deployments() {
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.5, delay: index * 0.1 }}
                 key={deployment.id} 
-                className="glass-panel p-8 md:p-10 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-white/20 transition-colors duration-500"
+                className="glass-panel p-8 md:p-10 rounded-3xl border border-white/5 relative overflow-hidden group hover:border-white/20 transition-colors duration-500 will-change-transform"
               >
                 <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-6 border-b border-white/10 pb-6">
                   <div>

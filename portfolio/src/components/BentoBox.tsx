@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import Image from 'next/image';
 import { Timer, BrainCircuit, Activity, Database, Cloud, Terminal, Cpu, Braces, Server, Code2 } from "lucide-react";
 
 // Elite Spatial Card: Integrates 3D Tilt, Spotlight, AND Spatial Entry
@@ -48,7 +49,7 @@ function SpatialBentoCard({ children, className = "", delay = 0 }: { children: R
       onMouseEnter={() => setOpacity(1)}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-[#050505]/60 backdrop-blur-xl transition-colors duration-500 hover:border-white/20 shadow-2xl spatial-stack cursor-crosshair ${className}`}
+      className={`relative overflow-hidden rounded-3xl border border-white/10 bg-[#050505]/60 backdrop-blur-xl transition-colors duration-500 hover:border-white/20 shadow-2xl spatial-stack cursor-crosshair will-change-transform ${className}`}
     >
       <div
         className="pointer-events-none absolute -inset-px opacity-0 transition duration-300 z-0"
@@ -100,9 +101,11 @@ export default function BentoBox() {
                 Founder. <br/>
                 Competitor.
               </h4>
-              <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border border-white/10 overflow-hidden relative grayscale opacity-70 transition-all duration-700 ease-out group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 hidden sm:block shadow-[0_0_30px_rgba(34,211,238,0)] group-hover:shadow-[0_0_30px_rgba(34,211,238,0.3)]">
-                <div className="absolute inset-0 bg-gradient-to-tr from-cyan-900/40 to-transparent z-10 transition-opacity duration-500 group-hover:opacity-0" />
-                <img src="/gymmate-ss.png" alt="Profile" className="object-cover w-full h-full" />
+              <div className="w-32 h-32 md:w-40 md:h-40 rounded-full border border-white/10 overflow-hidden relative opacity-95 transition-all duration-300 hidden sm:block shadow-[0_6px_30px_rgba(34,211,238,0.12)]">
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-cyan-900/10 to-transparent z-10" />
+                <div className="relative w-full h-full">
+                  <Image src="/profile_pic.jpeg" alt="Profile" fill sizes="(max-width: 768px) 96px, 160px" priority className="object-cover" />
+                </div>
               </div>
             </div>
             

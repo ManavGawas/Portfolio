@@ -85,7 +85,7 @@ export default function GlobalBackground() {
       {engine.monoliths.map((mono) => (
         <motion.div
           key={`mono-${mono.id}`}
-          className="absolute border border-white/[0.03] bg-[#050505]/40 transform-gpu"
+          className="absolute border border-white/[0.03] bg-[#050505]/40 transform-gpu will-change-transform"
           style={{
             width: mono.width,
             height: mono.height,
@@ -115,7 +115,7 @@ export default function GlobalBackground() {
       {engine.dataBeams.map((beam) => (
         <motion.div
           key={`beam-${beam.id}`}
-          className={`absolute w-[1px] bg-gradient-to-b ${beam.color} to-transparent transform-gpu`}
+          className={`absolute w-[1px] bg-gradient-to-b ${beam.color} to-transparent transform-gpu will-change-transform`}
           style={{
             height: beam.height,
             left: beam.left,
@@ -137,7 +137,7 @@ export default function GlobalBackground() {
       {engine.particles.map((particle) => (
         <motion.div
           key={`dust-${particle.id}`}
-          className="absolute rounded-full bg-cyan-400 transform-gpu"
+          className="absolute rounded-full bg-cyan-400 transform-gpu will-change-transform"
           style={{
             width: particle.size,
             height: particle.size,
