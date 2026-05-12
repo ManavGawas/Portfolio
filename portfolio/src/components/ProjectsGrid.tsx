@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { 
-  Cpu, Workflow, Layers, TerminalSquare, Activity, 
-  ExternalLink, ShieldCheck, Network, Globe, Lock 
+  Workflow, TerminalSquare, Activity, 
+  ExternalLink, ShieldCheck, Globe, Lock, Server,
+  ChevronLeft, ChevronRight
 } from "lucide-react";
 
 // Native SVG replacement since Lucide removed Brand Icons
@@ -23,8 +24,7 @@ const Github = ({ className }: { className?: string }) => (
   </svg>
 );
 
-// Unique Terminal-Style 3D Card
-function TerminalProjectCard({ project, index }: { project: any, index: number }) {
+function TerminalProjectCard({ project, index, isActive }: { project: any, index: number, isActive: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   
   const x = useMotionValue(0);
@@ -32,22 +32,19 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
   const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
   const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
   
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["5deg", "-5deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-5deg", "5deg"]);
 
   const rectRef = useRef<DOMRect | null>(null);
 
   const handleMouseEnter = () => {
-    if (ref.current) {
-      rectRef.current = ref.current.getBoundingClientRect();
-    }
+    if (!isActive) return;
+    if (ref.current) rectRef.current = ref.current.getBoundingClientRect();
   };
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!rectRef.current) return;
+    if (!isActive || !rectRef.current) return;
     const rect = rectRef.current;
-    
-    // Add requestAnimationFrame to throttle state updates
     requestAnimationFrame(() => {
       x.set((e.clientX - rect.left) / rect.width - 0.5);
       y.set((e.clientY - rect.top) / rect.height - 0.5);
@@ -68,106 +65,167 @@ function TerminalProjectCard({ project, index }: { project: any, index: number }
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, delay: index * 0.1 }}
-      className={`relative w-full flex flex-col rounded-2xl border border-white/10 bg-white/[0.02] backdrop-blur-md cursor-crosshair group shadow-2xl hover:shadow-[0_0_40px_rgba(var(--glow-color),0.15)] transition-all duration-500 overflow-hidden will-change-transform`}
+      className={`relative w-full h-full flex flex-col md:flex-row rounded-3xl border border-white/10 bg-[#030303]/90 backdrop-blur-xl group overflow-hidden will-change-transform ${isActive ? 'cursor-crosshair shadow-[0_0_80px_rgba(var(--glow-color),0.1)]' : 'cursor-pointer'}`}
       style={{ 
         ...({ '--glow-color': project.glowColor } as React.CSSProperties),
-        rotateX, 
-        rotateY, 
+        rotateX: isActive ? rotateX : 0, 
+        rotateY: isActive ? rotateY : 0, 
         transformStyle: "preserve-3d" 
       }}
     >
-      {/* Top Terminal Bar */}
-      <div className="w-full bg-transparent border-b border-white/5 px-4 py-3 flex items-center justify-between z-20">
-        <div className="flex items-center gap-2">
-          <TerminalSquare className="w-4 h-4 text-white/30" />
-          <span className="text-[10px] font-mono text-white/40 tracking-widest uppercase">NODE_{index + 1}</span>
+      {/* Visual Terminal Side Panel */}
+      <div className="relative w-full md:w-2/5 border-b md:border-b-0 md:border-r border-white/10 p-5 md:p-6 flex flex-col bg-[#010101] overflow-hidden">
+        
+        {/* Subtle Ambient Glow Linked to Project - Only visible when active */}
+        <div 
+          className={`absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-white/10 to-transparent blur-[80px] rounded-full transition-opacity duration-700 ${isActive ? 'opacity-40' : 'opacity-0'}`} 
+          style={{ backgroundImage: `radial-gradient(circle, rgb(${project.glowColor}) 0%, transparent 70%)` }}
+        ></div>
+        
+        {/* Terminal Bar */}
+        <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-3 z-10">
+          <div className="flex items-center gap-2">
+            <TerminalSquare className="w-4 h-4 text-white/30" />
+            <span className="text-[10px] font-mono text-white/40 tracking-widest uppercase">NODE_{index + 1}</span>
+          </div>
+          <div className="flex gap-1.5 z-10">
+            <div className="w-2.5 h-2.5 rounded-full bg-red-500/30"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-yellow-500/30"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-green-500/30"></div>
+          </div>
         </div>
-        <div className="flex items-center gap-2">
-          <span className={`text-[9px] font-mono uppercase tracking-wider px-2 py-0.5 rounded border flex items-center gap-1.5 ${
+
+        {/* Large Faded Icon */}
+        <div className="flex-grow flex items-center justify-center relative my-4" style={{ transform: "translateZ(30px)" }}>
+           <Icon className={`w-20 h-20 transition-colors duration-700 ${isActive ? 'text-white/[0.08]' : 'text-white/[0.02]'}`} />
+        </div>
+
+        {/* Faux Terminal Output */}
+        <div className="mt-auto z-10 font-mono text-[9px] text-white/30 space-y-0.5 hidden md:block">
+          <p className="text-green-400/50">~ $ ./deploy {project.id}</p>
+          <p>&gt; Connection established.</p>
+          <p>&gt; Status: <span className="text-cyan-400">OPTIMAL</span></p>
+          {isActive && <p className="animate-pulse">_</p>}
+        </div>
+      </div>
+
+      {/* Main Data Side Panel */}
+      <div className={`p-5 md:p-6 flex-grow flex flex-col justify-center z-20 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-60'}`} style={{ transform: "translateZ(50px)" }}>
+        
+        <p className="text-[10px] font-mono text-cyan-400/80 bg-cyan-900/20 px-3 py-1 border border-cyan-500/20 rounded-full w-max tracking-widest mb-3">
+          {project.category}
+        </p>
+        
+        <div className="flex items-start justify-between mb-3">
+          <h4 className="text-2xl font-bold text-white tracking-tighter">
+            {project.title}
+          </h4>
+          <span className={`text-[9px] font-mono uppercase tracking-wider px-2 py-1 rounded-full border flex items-center gap-1.5 flex-shrink-0 ml-4 ${
             project.status === 'PRIVATE_REPO' 
               ? 'text-yellow-400/80 bg-yellow-500/10 border-yellow-500/20' 
               : 'text-emerald-400/80 bg-emerald-500/10 border-emerald-500/20'
           }`}>
-            <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${
+            <span className={`w-1.5 h-1.5 rounded-full ${isActive ? 'animate-pulse' : ''} ${
               project.status === 'PRIVATE_REPO' ? 'bg-yellow-400' : 'bg-emerald-400'
             }`}></span>
             {project.status}
           </span>
         </div>
-      </div>
-
-      {/* Card Body */}
-      <div className="p-6 md:p-8 flex-grow flex flex-col z-20" style={{ transform: "translateZ(30px)" }}>
-        <div className="mb-6 inline-flex p-3 rounded-xl bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
-          <Icon className="w-6 h-6 text-white/80 group-hover:text-white" />
-        </div>
         
-        <h4 className="text-2xl font-bold text-white mb-3 tracking-tight">
-          {project.title}
-        </h4>
-        
-        <p className="text-white/50 text-sm leading-relaxed font-light mb-8 flex-grow">
+        <p className="text-white/60 text-sm leading-relaxed font-light mb-4 flex-grow">
           {project.description}
         </p>
 
-        {/* Tech Stack Pills */}
-        <div className="flex flex-wrap gap-2 mb-6" style={{ transform: "translateZ(40px)" }}>
+        <div className="flex flex-wrap gap-2 mb-5" style={{ transform: "translateZ(60px)" }}>
           {project.tech.map((t: string, i: number) => (
             <span 
               key={i} 
-              className="px-2 py-1 text-[10px] font-mono text-white/60 bg-white/5 border border-white/10 rounded group-hover:border-white/20 transition-colors"
+              className="px-2.5 py-1 text-[10px] font-mono text-cyan-400/80 border border-cyan-500/20 rounded-full"
             >
               {t}
             </span>
           ))}
         </div>
-      </div>
 
-      {/* Dynamic Footer Button (GitHub vs Live Link) */}
-      <div className="px-6 pb-6 pt-0 z-20" style={{ transform: "translateZ(50px)" }}>
-        {project.github ? (
-          <a 
-            href={project.github} 
-            target="_blank" 
-            rel="noreferrer"
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 text-white font-mono text-xs tracking-widest uppercase transition-all"
-          >
-            <Github className="w-4 h-4" />
-            View Source Architecture
-          </a>
-        ) : project.live ? (
-          <a 
-            href={project.live} 
-            target="_blank" 
-            rel="noreferrer"
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-cyan-500/10 hover:bg-cyan-500/20 border border-cyan-500/20 hover:border-cyan-500/40 text-cyan-400 font-mono text-xs tracking-widest uppercase transition-all"
-          >
-            <ExternalLink className="w-4 h-4" />
-            View Live Deployment
-          </a>
-        ) : (
-          <div className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-white/5 border border-white/10 text-white/30 font-mono text-xs tracking-widest uppercase cursor-not-allowed">
-            <Lock className="w-4 h-4" />
-            Architecture Private
-          </div>
-        )}
+        {/* Buttons */}
+        <div className={`mt-auto transition-all ${isActive ? 'pointer-events-auto' : 'pointer-events-none opacity-50'}`} style={{ transform: "translateZ(80px)" }}>
+          {project.github ? (
+            <a 
+              href={project.github} 
+              target="_blank" 
+              rel="noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white text-black hover:bg-cyan-400 font-mono text-xs tracking-widest uppercase transition-all duration-500"
+            >
+              <Github className="w-4 h-4" />
+              View Source
+            </a>
+          ) : project.live ? (
+            <a 
+              href={project.live} 
+              target="_blank" 
+              rel="noreferrer"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl border border-white/20 text-white hover:bg-white/5 font-mono text-xs tracking-widest uppercase transition-all"
+            >
+              <ExternalLink className="w-4 h-4" />
+              Live Demo
+            </a>
+          ) : (
+            <div className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-white/5 border border-white/10 text-white/30 font-mono text-xs tracking-widest uppercase cursor-not-allowed">
+              <Lock className="w-4 h-4" />
+              Private
+            </div>
+          )}
+        </div>
       </div>
-
-      {/* Subtle Background Glow on Hover */}
-      <div className="absolute inset-0 bg-gradient-to-br from-white/0 to-white/0 group-hover:from-white/[0.02] group-hover:to-transparent transition-colors duration-500 pointer-events-none z-0" />
     </motion.div>
   );
 }
 
 export default function ProjectsGrid() {
+  const [activeIndex, setActiveIndex] = useState(0);
+
   const projects = [
     {
-      title: "Autonomous Agent Architectures",
-      description: "A production repository hosting decoupled cognitive workflows. Built to automate outbound pipelines, intercept API webhooks, and map dialogue nodes with sub-500ms voice execution.",
+      id: "01",
+      title: "Syncora Dark Pool",
+      category: "QUANT_FINANCE",
+      description: "High-frequency trading matching engine for off-exchange institutional liquidity. Implements zero-impact algorithmic order execution.",
+      status: "LIVE_SYSTEM",
+      icon: Activity,
+      tech: ["C++", "Quantitative System Architecture", "High-Throughput Data Pipelines"],
+      github: "https://github.com/ManavGawas/syncora-dark-pool",
+      live: null,
+      glowColor: "34, 211, 238" // Cyan
+    },
+    {
+      id: "02",
+      title: "Distributed Orchestrator",
+      category: "SYS_ARCH",
+      description: "Fault-tolerant node manager and task queue for distributed microservices. Features leader election and low-latency gRPC inter-node communication.",
+      status: "DEPLOYED",
+      icon: Server,
+      tech: ["Golang", "gRPC", "Docker", "PostgreSQL", "Distributed Cloud Infrastructure"],
+      github: "https://github.com/ManavGawas/Distributed-Systems-Orchestrator",
+      live: null,
+      glowColor: "168, 85, 247" // Purple
+    },
+    {
+      id: "03",
+      title: "Syncora Sentinel",
+      category: "THREAT_DETECTION",
+      description: "Autonomous telemetry pipeline and security monitor. Continuously analyzes network traffic and API payloads for real-time anomaly detection.",
+      status: "SECURE",
+      icon: ShieldCheck,
+      tech: ["Golang", "API Integration", "Event-Driven Architecture", "Real-Time Data Streaming"],
+      github: "https://github.com/ManavGawas/syncora-sentinel",
+      live: null,
+      glowColor: "34, 197, 94" // Green
+    },
+    {
+      id: "04",
+      title: "Autonomous Agents",
+      category: "AI // WORKFLOWS",
+      description: "Production repository hosting decoupled cognitive workflows. Built to automate outbound pipelines and map dialogue nodes with sub-500ms execution.",
       status: "LIVE_SYSTEM",
       icon: Workflow,
       tech: ["n8n", "Voiceflow", "Vapi", "PostgreSQL"],
@@ -176,28 +234,10 @@ export default function ProjectsGrid() {
       glowColor: "34, 211, 238" // Cyan
     },
     {
-      title: "Spatial Ride Sharing Engine",
-      description: "High-concurrency spatial routing backend for a ride-sharing topology. Utilizes geospatial indexing for sub-second driver-to-rider matching and WebSockets for live telemetry.",
-      status: "SCALED",
-      icon: Network,
-      tech: ["Node.js", "Redis", "PostgreSQL", "WebSockets"],
-      github: "https://github.com/ManavGawas", 
-      live: null,
-      glowColor: "59, 130, 246" // Blue
-    },
-    {
-      title: "CyberSecurity Assessment",
-      description: "An automated vulnerability scanning and compliance reporting engine. Orchestrates payload delivery and parses security logs to generate actionable threat intelligence metrics.",
-      status: "SECURE",
-      icon: ShieldCheck,
-      tech: ["Python", "Bash", "OWASP", "Docker"],
-      github: "https://github.com/ManavGawas", 
-      live: null,
-      glowColor: "244, 63, 94" // Rose/Red
-    },
-    {
+      id: "05",
       title: "ForeFitness Architecture",
-      description: "A comprehensive hypertrophy and strength training progressive overload tracker. Features dynamic split scheduling (PPL, Upper/Lower) and strict workout telemetry logging.",
+      category: "TELEMETRY",
+      description: "Hypertrophy and strength training progressive overload tracker. Features dynamic split scheduling and strict workout telemetry logging.",
       status: "STABLE",
       icon: Activity,
       tech: ["React Native", "Node.js", "MongoDB", "Express"],
@@ -206,54 +246,101 @@ export default function ProjectsGrid() {
       glowColor: "249, 115, 22" // Orange
     },
     {
-      title: "ImpactLoop Volunteer App",
-      description: "A social-impact resource allocation platform. Matches volunteers to local directives using algorithmic scheduling and gamified contribution tracking layers.",
-      status: "DEPLOYED",
-      icon: Layers,
-      tech: ["Next.js", "Supabase", "Tailwind CSS"],
-      github: "https://github.com/ManavGawas", 
-      live: null,
-      glowColor: "234, 179, 8" // Yellow
-    },
-    {
+      id: "06",
       title: "Viva Computech Portal",
-      description: "Corporate web presence and lead-capture portal for a hardware and IT solutions provider. Optimized for extreme SEO performance and sub-100ms Largest Contentful Paint (LCP).",
+      category: "IT_SOLUTIONS",
+      description: "Corporate web presence and lead-capture portal. Optimized for extreme SEO performance and sub-100ms Largest Contentful Paint.",
       status: "PRIVATE_REPO",
       icon: Globe,
       tech: ["React", "Framer Motion", "Tailwind CSS"],
-      github: null, // Private repo triggers the live link button
+      github: null, 
       live: "https://viva-computech.onrender.com",
       glowColor: "20, 184, 166" // Teal
     }
   ];
 
-  return (
-    <section id="projects" className="relative w-full py-32 px-6 z-10 bg-transparent overflow-hidden perspective-1000 border-t border-white/5">
-      
-      {/* Background Ambient Light */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[60vw] h-[60vw] bg-white/[0.02] blur-[150px] rounded-full pointer-events-none z-0"></div>
+  const handleNext = () => setActiveIndex((prev) => Math.min(prev + 1, projects.length - 1));
+  const handlePrev = () => setActiveIndex((prev) => Math.max(prev - 1, 0));
 
-      <div className="max-w-7xl mx-auto relative z-10">
+  return (
+    <section id="projects" className="relative w-full py-24 md:py-32 bg-transparent z-10 overflow-hidden perspective-1000">
+      
+      {/* STATIC Background Ambient Light */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[80vw] bg-white/[0.02] blur-[150px] rounded-full pointer-events-none z-0"></div>
+
+      <div className="w-full relative z-10">
         
-        {/* Header Section */}
-        <div className="mb-20 text-center md:text-left flex flex-col items-center md:items-start">
-          <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-6 inline-flex items-center gap-2">
-            <Activity className="w-3 h-3 text-white/50" />
-            <span className="text-white/50 font-mono text-[10px] tracking-[0.2em] uppercase">Deployment Logs</span>
+        {/* Header Block */}
+        <div className="max-w-7xl mx-auto px-6 mb-12 flex flex-col md:flex-row md:items-end justify-between gap-6">
+          <div>
+            <div className="px-4 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4 inline-flex items-center gap-2">
+              <Activity className="w-3 h-3 text-cyan-400 animate-pulse" />
+              <span className="text-white/50 font-mono text-[10px] tracking-[0.2em] uppercase">Deployment Logs</span>
+            </div>
+            <h3 className="text-4xl md:text-6xl font-bold tracking-tighter text-white">
+              System Installations.
+            </h3>
           </div>
-          <h3 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-white">
-            System Installations.
-          </h3>
-          <p className="mt-4 text-white/40 max-w-xl font-light text-sm md:text-base">
-            Review the source code and architectural patterns of my active deployments. No boilerplate. Strictly production-grade logic.
-          </p>
+          
+          {/* Elite Navigation Controls */}
+          <div className="flex items-center gap-4 border border-white/10 bg-[#050505]/80 backdrop-blur-sm p-2 rounded-2xl w-max">
+            <button 
+              onClick={handlePrev} 
+              disabled={activeIndex === 0}
+              className="p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 transition-all text-white"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            <div className="font-mono text-xs text-white/50 w-20 text-center tracking-widest">
+              0{activeIndex + 1} <span className="text-white/20">/</span> 0{projects.length}
+            </div>
+            <button 
+              onClick={handleNext} 
+              disabled={activeIndex === projects.length - 1}
+              className="p-3 rounded-xl bg-white/5 hover:bg-white/10 disabled:opacity-30 disabled:hover:bg-white/5 transition-all text-white"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
 
-        {/* 3D Projects Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-          {projects.map((project, index) => (
-            <TerminalProjectCard key={index} project={project} index={index} />
-          ))}
+        {/* SMALLER Spatial Coverflow Carousel Track */}
+        <div className="relative h-[55vh] min-h-[420px] max-h-[520px] w-full flex items-center justify-center">
+          {projects.map((project, index) => {
+            const offset = index - activeIndex;
+            const isActive = offset === 0;
+
+            // Only render cards that are close to the active index for extreme performance
+            if (Math.abs(offset) > 2) return null; 
+
+            return (
+              <motion.div
+                key={project.id}
+                onClick={() => !isActive && setActiveIndex(index)}
+                initial={false}
+                animate={{
+                  x: `${offset * 105}%`, 
+                  scale: isActive ? 1 : 0.85,
+                  opacity: isActive ? 1 : 0.3,
+                  rotateY: isActive ? 0 : offset < 0 ? 12 : -12, 
+                  zIndex: 10 - Math.abs(offset),
+                }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 260, 
+                  damping: 30, 
+                  mass: 1 
+                }}
+                className="absolute w-[85vw] md:w-[600px] lg:w-[750px] h-full"
+              >
+                <TerminalProjectCard 
+                  project={project} 
+                  index={index} 
+                  isActive={isActive} 
+                />
+              </motion.div>
+            );
+          })}
         </div>
 
       </div>
